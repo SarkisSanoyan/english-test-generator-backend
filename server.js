@@ -26,16 +26,34 @@ import loggerMiddleware from "./middleware/logger.middleware.js";
 
 import { config } from "./config/env.js";
 const app = express();
-const PORT = config.port || 5000;
+const PORT = process.env.PORT || config.port || 8080;
 let server;
 
+const allowedOrigins = [
+  "http://localhost:3000",
+  "http://localhost:5173",
+  "http://127.0.0.1:3000",
+  "http://127.0.0.1:5173",
+  process.env.FRONTEND_URL,
+  process.env.CORS_ORIGIN,
+].filter(Boolean);
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin) || /^https:\/\/.*\.vercel\.app$/.test(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+};
+
 // Middleware
-app.use(
-  cors({
-    origin: "https://english-test-generator-frontend.vercel.app", // Your Frontend URL
-    credentials: true, // Allow cookies to be sent
-  }),
-);
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 
 app.use(globalLimiter);
 app.use(morgan("dev"));
@@ -83,7 +101,7 @@ const startServer = async () => {
       scheduleDatabaseCheck();
     }, 60 * 60 * 1000);
 
-    server = app.listen(PORT, () => {
+    server = app.listen(PORT, "0.0.0.0", () => {
       console.log(`🚀 Server is running on port: ${PORT}`);
     });
   } catch (error) {
