@@ -32,7 +32,7 @@ let server;
 // Middleware
 app.use(
   cors({
-    origin: "https://english-test-generator-frontend.vercel.app/", // Your Frontend URL
+    origin: "https://english-test-generator-frontend.vercel.app", // Your Frontend URL
     credentials: true, // Allow cookies to be sent
   }),
 );
