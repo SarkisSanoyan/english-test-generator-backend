@@ -20,9 +20,9 @@ import usersRouter from "./routes/users.routes.js";
 import analyzeRouter from "./routes/analyze.routes.js";
 import loggerMiddleware from "./middleware/logger.middleware.js";
 
-import { startWordWorker } from "./queues/startWorker.js";
-import { scheduleDatabaseCheck } from "./queues/scheduler.js";
-import { seedAdmins } from "./scripts/seedAdmin.js";
+// import { startWordWorker } from "./queues/startWorker.js";
+// import { scheduleDatabaseCheck } from "./queues/scheduler.js";
+// import { seedAdmins } from "./scripts/seedAdmin.js";
 
 import { config } from "./config/env.js";
 const app = express();
@@ -32,7 +32,7 @@ let server;
 // Middleware
 app.use(
   cors({
-    origin: "http://localhost:5173", // Your Frontend URL
+    origin: "https://english-test-generator-frontend.vercel.app/", // Your Frontend URL
     credentials: true, // Allow cookies to be sent
   }),
 );
@@ -70,13 +70,13 @@ app.use((err, req, res, next) => {
 const startServer = async () => {
   try {
     await connectDB();
-    await seedAdmins();
     await connectRedis();
-    await seedAdmins();
-    startWordWorker();
-    console.log("Word Update Worker started");
+    // await seedAdmins();
+    // await seedAdmins();
+    // startWordWorker();
+    // console.log("Word Update Worker started");
 
-    await scheduleDatabaseCheck();
+    // await scheduleDatabaseCheck();
 
     setInterval(() => {
       console.log("⏱️ Running scheduled database check...");

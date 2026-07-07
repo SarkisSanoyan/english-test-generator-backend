@@ -18,10 +18,11 @@ const redisClient = createClient({
 
 //logs
 redisClient.on("connect", () => console.log("Redis Connecting..."));
-redisClient.on("ready", () => console.log("Redis Connected & Ready"));
+redisClient.on("ready", () => console.log("Redis Connected & Ready on:", config.redisUri || "redis://localhost:6379"));
 redisClient.on("error", (err) => console.error("Redis Error:", err.message));
 redisClient.on("reconnecting", () => console.log("Redis Reconnecting..."));
 redisClient.on("end", () => { console.log("Redis: Connection closed") });
+
 /**
  * Connect to Redis
  * */
