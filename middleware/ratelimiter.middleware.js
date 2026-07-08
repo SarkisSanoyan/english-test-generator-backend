@@ -11,8 +11,11 @@ const createRedisStore = (prefix) =>
 
 // GLOBAL LIMITER
 export const globalLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 min
+  windowMs: 15 * 60 * 1000,
   limit: 1000,
+
+  skip: (req) => req.method === "OPTIONS",
+
   standardHeaders: true,
   legacyHeaders: false,
   message: "Too many requests, please try again later.",
@@ -23,6 +26,9 @@ export const globalLimiter = rateLimit({
 export const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   limit: 100, // 5
+
+  skip: (req) => req.method === "OPTIONS",
+
   standardHeaders: true,
   legacyHeaders: false,
   statusCode: 429,
@@ -37,6 +43,9 @@ export const authLimiter = rateLimit({
 export const registrationLimiter = rateLimit({
   windowMs: 24 * 60 * 60 * 1000, // 24 hours
   limit: 100,
+
+  skip: (req) => req.method === "OPTIONS",
+
   standardHeaders: true,
   legacyHeaders: false,
   statusCode: 429,
@@ -51,6 +60,9 @@ export const registrationLimiter = rateLimit({
 export const apiLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
   limit: 50,
+
+  skip: (req) => req.method === "OPTIONS",
+
   standardHeaders: true,
   legacyHeaders: false,
   message: {
@@ -63,6 +75,9 @@ export const apiLimiter = rateLimit({
 export const forgotPasswordLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
   limit: 5,
+
+  skip: (req) => req.method === "OPTIONS",
+
   standardHeaders: true,
   legacyHeaders: false,
   statusCode: 429,
