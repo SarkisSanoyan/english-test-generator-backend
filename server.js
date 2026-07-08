@@ -26,6 +26,8 @@ import loggerMiddleware from "./middleware/logger.middleware.js";
 
 import { config } from "./config/env.js";
 const app = express();
+app.set("trust proxy", 1);
+
 const PORT = process.env.PORT || config.port || 8080;
 let server;
 
@@ -34,6 +36,7 @@ const allowedOrigins = [
   "http://localhost:5173",
   "http://127.0.0.1:3000",
   "http://127.0.0.1:5173",
+  "https://english-test-generator-frontend.vercel.app",
   process.env.FRONTEND_URL,
   process.env.CORS_ORIGIN,
 ].filter(Boolean);
