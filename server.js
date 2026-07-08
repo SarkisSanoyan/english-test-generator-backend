@@ -43,7 +43,10 @@ const corsOptions = {
     if (!origin || allowedOrigins.includes(origin) || /^https:\/\/.*\.vercel\.app$/.test(origin)) {
       callback(null, true);
     } else {
-      callback(new Error("Not allowed by CORS"));
+      console.warn(`CORS blocked origin: ${origin}. Allowed: ${allowedOrigins.join(", ")}`);
+      // Don't throw an error here — return false so CORS headers are not set
+      // This prevents Express from sending an error response without CORS headers
+      callback(null, false);
     }
   },
   credentials: true,
