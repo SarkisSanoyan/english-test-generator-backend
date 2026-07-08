@@ -20,9 +20,9 @@ import usersRouter from "./routes/users.routes.js";
 import analyzeRouter from "./routes/analyze.routes.js";
 import loggerMiddleware from "./middleware/logger.middleware.js";
 
-import { startWordWorker } from "./queues/startWorker.js";
-import { scheduleDatabaseCheck } from "./queues/scheduler.js";
-import { seedAdmins } from "./scripts/seedAdmin.js";
+  // import { startWordWorker } from "./queues/startWorker.js";
+  // import { scheduleDatabaseCheck } from "./queues/scheduler.js";
+  // import { seedAdmins } from "./scripts/seedAdmin.js";
 
 import { config } from "./config/env.js";
 const app = express();
@@ -30,12 +30,40 @@ const PORT = config.port || 5000;
 let server;
 
 // Middleware
-app.use(
-  cors({
-    origin: "https://english-test-generator-frontend.vercel.app", // Your Frontend URL
-    credentials: true, // Allow cookies to be sent
-  }),
-);
+const corsOptions = {
+  origin: (origin, callback) => {
+    const allowedOrigins = [
+      "http://localhost:3000",
+      "http://localhost:5173",
+      "http://127.0.0.1:3000",
+      "http://127.0.0.1:5173",
+      "https://english-test-generator-frontend.vercel.app",
+      process.env.FRONTEND_URL,
+      process.env.CORS_ORIGIN,
+    ].filter(Boolean);
+
+    if (!origin || allowedOrigins.includes(origin) || /^https:\/\/.*\.vercel\.app$/.test(origin)) {
+      callback(null, true);
+    } else {
+      callback(null, false);
+    }
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
+
+// Handle browser preflight requests before any rate limiter runs
+app.use((req, res, next) => {
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(204);
+  }
+  next();
+});
 
 app.use(globalLimiter);
 app.use(morgan("dev"));
@@ -70,13 +98,11 @@ app.use((err, req, res, next) => {
 const startServer = async () => {
   try {
     await connectDB();
-    await seedAdmins();
     await connectRedis();
-    await seedAdmins();
-    startWordWorker();
-    console.log("Word Update Worker started");
-
-    await scheduleDatabaseCheck();
+    // await seedAdmins();
+    // await seedAdmins();
+    // startWordWorker();
+    // await scheduleDatabaseCheck();
 
     setInterval(() => {
       console.log("⏱️ Running scheduled database check...");
