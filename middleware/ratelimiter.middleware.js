@@ -12,17 +12,18 @@ const createRedisStore = (prefix) =>
 // GLOBAL LIMITER
 export const globalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 min
-  limit: 1000,
+  limit: 5000,
   standardHeaders: true,
   legacyHeaders: false,
   message: "Too many requests, please try again later.",
   store: createRedisStore("global"),
+  skip: (req) => req.method === "OPTIONS",
 });
 
 // 2. AUTH LIMITER
 export const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  limit: 100, // 5
+  limit: 200,
   standardHeaders: true,
   legacyHeaders: false,
   statusCode: 429,
@@ -31,12 +32,13 @@ export const authLimiter = rateLimit({
     retryAfter: Math.ceil(15 * 60),
   },
   store: createRedisStore("auth"),
+  skip: (req) => req.method === "OPTIONS",
 });
 
 // 3. REGISTRATION LIMITER (24 hours)
 export const registrationLimiter = rateLimit({
   windowMs: 24 * 60 * 60 * 1000, // 24 hours
-  limit: 100,
+  limit: 200,
   standardHeaders: true,
   legacyHeaders: false,
   statusCode: 429,
@@ -45,24 +47,26 @@ export const registrationLimiter = rateLimit({
     retryAfter: Math.ceil(24 * 60 * 60),
   },
   store: createRedisStore("register"),
+  skip: (req) => req.method === "OPTIONS",
 });
 
 // 4. API LIMITER (for demanding requests, test generation)
 export const apiLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
-  limit: 50,
+  limit: 200,
   standardHeaders: true,
   legacyHeaders: false,
   message: {
     error: "Hourly API limit exceeded. Upgrade your plan for more requests.",
   },
   store: createRedisStore("api"),
+  skip: (req) => req.method === "OPTIONS",
 });
 
 // 5. FORGOT PASSWORD LIMITER (strict: 5 per hour)
 export const forgotPasswordLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
-  limit: 5,
+  limit: 20,
   standardHeaders: true,
   legacyHeaders: false,
   statusCode: 429,
@@ -70,5 +74,6 @@ export const forgotPasswordLimiter = rateLimit({
     error: "Too many password reset attempts. Please try again in 1 hour.",
   },
   store: createRedisStore("forgot-password"),
+  skip: (req) => req.method === "OPTIONS",
 });
 
