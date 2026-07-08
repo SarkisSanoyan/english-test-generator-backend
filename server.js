@@ -61,7 +61,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.options("*", cors(corsOptions));
 
-app.use(globalLimiter);
+// app.use(globalLimiter);
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -74,7 +74,7 @@ app.get("/", (req, res) =>
 );
 
 // API Routes
-app.use("/api/v1/quiz", quizRoutes); //apiLimiter, quizRoutes);
+app.use("/api/v1/quiz", quizRoutes); 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/admin", adminRouter);
 app.use("/api/v1/tests", apiLimiter, testsRouter);
