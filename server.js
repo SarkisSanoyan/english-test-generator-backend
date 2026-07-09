@@ -15,6 +15,7 @@ import {
 import authRoutes from "./routes/auth.routes.js";
 import quizRoutes from "./routes/quiz.routes.js";
 import adminRouter from "./routes/admin.routes.js";
+import resultsRouter from "./routes/results.routes.js";
 import testsRouter from "./routes/tests.routes.js";
 import usersRouter from "./routes/users.routes.js";
 import analyzeRouter from "./routes/analyze.routes.js";
@@ -57,6 +58,7 @@ app.get("/", (req, res) =>
 app.use("/api/v1/quiz", quizRoutes);
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/admin", adminRouter);
+app.use("/api/v1/results", resultsRouter);
 app.use("/api/v1/tests", apiLimiter, testsRouter);
 app.use("/api/v1/users", apiLimiter, usersRouter);
 app.use("/api/v1/analyze", apiLimiter, analyzeRouter);

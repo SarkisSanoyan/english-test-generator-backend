@@ -2,8 +2,6 @@ import jwt from "jsonwebtoken";
 import { config } from "../config/env.js";
 
 export const verifyToken = (req, res, next) => {
-  // Support token supplied either via cookie (`accessToken`) or
-  // Authorization header (`Bearer <token>`).
   const authHeader = req.headers.authorization || req.headers.Authorization;
   let token = null;
 
