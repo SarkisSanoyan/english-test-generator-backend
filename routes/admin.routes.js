@@ -19,21 +19,22 @@ import {
 
 const router = express.Router();
 
+router.use(verifyToken);
+
 router.use("/logs", isAdmin, adminLog);
 router.use("/words", isAdmin, adminWords);
 router.use("/submissions", isAdmin, adminSubmissions);
 router.use("/quizzes", isAdmin, adminQuizzes);
 router.use("/users-list", isAdmin, adminUsersSubRouter);
 
-router.get("/dashboard", verifyToken, isAdmin, getDashboardStats);
+router.get("/dashboard", isAdmin, getDashboardStats);
 
-router.get("/users", verifyToken, isAdmin, getAllUsers);
-router.delete("/users/:id", verifyToken, isAdmin, deleteUser);
+router.get("/users", isAdmin, getAllUsers);
+router.delete("/users/:id", isAdmin, deleteUser);
 
-router.get("/results", verifyToken, isAdmin, getAllResults);
-router.get("/tests", verifyToken, isAdmin, getAllTests);
+router.get("/results", isAdmin, getAllResults);
+router.get("/tests", isAdmin, getAllTests);
 
-// Public endpoint for saving results from the frontend
 router.post("/results", saveResult);
 
 export default router;
