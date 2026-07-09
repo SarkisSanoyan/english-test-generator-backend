@@ -20,9 +20,9 @@ import usersRouter from "./routes/users.routes.js";
 import analyzeRouter from "./routes/analyze.routes.js";
 import loggerMiddleware from "./middleware/logger.middleware.js";
 
-  // import { startWordWorker } from "./queues/startWorker.js";
-  // import { scheduleDatabaseCheck } from "./queues/scheduler.js";
-  // import { seedAdmins } from "./scripts/seedAdmin.js";
+// import { startWordWorker } from "./queues/startWorker.js";
+// import { scheduleDatabaseCheck } from "./queues/scheduler.js";
+// import { seedAdmins } from "./scripts/seedAdmin.js";
 
 import { config } from "./config/env.js";
 const app = express();
