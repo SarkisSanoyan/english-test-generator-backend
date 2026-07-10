@@ -12,8 +12,8 @@ import {
   getDashboardStats,
   getAllTests,
   getAllResults,
-  saveResult,
   getAllUsers,
+  saveResult,
   deleteUser,
 } from "../controllers/admin.controller.js";
 
@@ -34,5 +34,7 @@ router.delete("/users/:id", isAdmin, deleteUser);
 
 router.get("/results", isAdmin, getAllResults);
 router.get("/tests", isAdmin, getAllTests);
+
+router.post('/', saveResult);
 
 export default router;
