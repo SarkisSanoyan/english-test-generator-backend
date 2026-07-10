@@ -34,6 +34,8 @@ app.use(
 );
 
 app.use(globalLimiter);
+app.options("*", cors({ origin: "http://english-test-generator-frontend.vercel.app", credentials: true }));
+
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
