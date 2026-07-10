@@ -17,6 +17,7 @@ import quizRoutes from "./routes/quiz.routes.js";
 import adminRouter from "./routes/admin.routes.js";
 import testsRouter from "./routes/tests.routes.js";
 import usersRouter from "./routes/users.routes.js";
+import resultsRouter from "./routes/results.routes.js";
 import analyzeRouter from "./routes/analyze.routes.js";
 import loggerMiddleware from "./middleware/logger.middleware.js";
 
@@ -54,6 +55,7 @@ app.use("/api/v1/admin", adminRouter);
 app.use("/api/v1/tests", apiLimiter, testsRouter);
 app.use("/api/v1/users", apiLimiter, usersRouter);
 app.use("/api/v1/analyze", apiLimiter, analyzeRouter);
+app.use("/api/v1/results", apiLimiter, resultsRouter);
 
 // 404 Fallback
 app.use((req, res) => res.status(404).json({ message: "Endpoint not found" }));
