@@ -28,13 +28,13 @@ let server;
 // Middleware
 app.use(
   cors({
-    origin: "http://english-test-generator-frontend.vercel.app", // Your Frontend URL
+    origin: "https://english-test-generator-frontend.vercel.app", // Your Frontend URL
     credentials: true, // Allow cookies to be sent
   }),
 );
 
 app.use(globalLimiter);
-app.options("*", cors({ origin: "http://english-test-generator-frontend.vercel.app", credentials: true }));
+app.options("*", cors({ origin: "https://english-test-generator-frontend.vercel.app", credentials: true }));
 
 app.use(morgan("dev"));
 app.use(express.json());
@@ -45,7 +45,7 @@ app.use(loggerMiddleware);
 // Root Route
 app.get("/", (req, res) =>
   res.json({ message: "🧠 English Test Generator Backend is running" }),
-);
+);  
 
 // API Routes
 app.use("/api/v1/quiz", quizRoutes); //apiLimiter, quizRoutes);
