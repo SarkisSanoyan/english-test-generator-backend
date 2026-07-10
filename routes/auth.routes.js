@@ -6,7 +6,7 @@ import { registrationLimiter, authLimiter, forgotPasswordLimiter } from '../midd
 
 const router = express.Router();
 
-router.post("/register", registrationLimiter, authContoller.register);
+router.post("/register", authContoller.register);
 router.post("/login", authLimiter, authContoller.login); // Restored Limiter for users
 router.post("/admin/login", authContoller.adminLogin); // No Limiter for admins
 router.get("/refresh", authContoller.refresh);

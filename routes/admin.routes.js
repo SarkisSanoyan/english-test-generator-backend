@@ -35,6 +35,6 @@ router.delete("/users/:id", isAdmin, deleteUser);
 router.get("/results", isAdmin, getAllResults);
 router.get("/tests", isAdmin, getAllTests);
 
-router.post("/results", saveResult);
+router.post("/admin/results", saveResult);
 
 export default router;
