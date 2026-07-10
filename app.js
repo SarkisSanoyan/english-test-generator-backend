@@ -22,18 +22,29 @@ const app = express();
 
 app.set("trust proxy", 1);
 
+const allowedOrigins = [
+  "https://english-test-generator-frontend.vercel.app",
+  "http://localhost:5173",
+];
+
 const corsOptions = {
-  origin: [
-    "https://english-test-generator-frontend.vercel.app",
-    "http://localhost:5173",
-  ],
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true,
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
+  optionsSuccessStatus: 204,
+  preflightContinue: false,
 };
 
 // Middleware
 app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 app.use(globalLimiter);
 
 app.use(morgan("dev"));
