@@ -29,12 +29,12 @@ let server;
 // Middleware
 app.use(
   cors({
-    origin: "https://english-test-generator-frontend.vercel.app/home", // Your Frontend URL
+    origin: "https://english-test-generator-frontend.vercel.app", // Your Frontend URL
     credentials: true, // Allow cookies to be sent
   }),
 );
 
-app.options("*", cors({ origin: "https://english-test-generator-frontend.vercel.app/home", credentials: true }));
+app.options("*", cors({ origin: "https://english-test-generator-frontend.vercel.app", credentials: true }));
 app.use(globalLimiter);
 
 app.use(morgan("dev"));
