@@ -1,6 +1,10 @@
 import { createClient } from "redis";
 import { config } from "./env.js";
 
+if (!config.redisUri) {
+    throw new Error("REDIS_URL is missing");
+}
+
 const redisClient = createClient({
     url: config.redisUri,
     socket: {
@@ -12,23 +16,16 @@ const redisClient = createClient({
         },
         connectTimeout: 10000, // 10 seconds
     },
-    // Optional: Add password if needed
-    // password: process.env.REDIS_PASSWORD,
 });
 
-//logs
 redisClient.on("connect", () => console.log("Redis Connecting..."));
-redisClient.on("ready", () => console.log("Redis Connected & Ready on:", config.redisUri || "redis://localhost:6379"));
+redisClient.on("ready", () => console.log("Redis Connected & Ready"));
 redisClient.on("error", (err) => console.error("Redis Error:", err.message));
 redisClient.on("reconnecting", () => console.log("Redis Reconnecting..."));
 redisClient.on("end", () => { console.log("Redis: Connection closed") });
 
-/**
- * Connect to Redis
- * */
 export const connectRedis = async () => {
     try {
-        // setupRedisListeners(); // Function not defined, listeners are already attached above
         if (!redisClient.isOpen) {
             await redisClient.connect();
         } else {
@@ -37,14 +34,11 @@ export const connectRedis = async () => {
         }
     } catch (error) {
         console.error(":x: Redis Connection Failed:", error.message);
-        console.error("Make sure Redis server is running on", config.redisUri || "redis://localhost:6379");
+        console.error("Redis connection failed. Check REDIS_URL environment variable.");
         process.exit(1); // Stop server if Redis fails (same as MongoDB)
     }
 };
-/**
- * Gracefully disconnect from Redis
- * Call this during server shutdown
- */
+
 export const disconnectRedis = async () => {
     try {
         if (redisClient.isOpen) {
@@ -56,14 +50,11 @@ export const disconnectRedis = async () => {
         await redisClient.disconnect(); // Force disconnect
     }
 };
-/** * Check if Redis is connected
- */
+
 export const isRedisConnected = () => {
     return redisClient.isOpen && redisClient.isReady;
 };
-/**
- * Get Redis client info (for debugging)
- */
+
 export const getRedisInfo = async () => {
     try {
         if (!isRedisConnected()) {
@@ -80,13 +71,5 @@ export const getRedisInfo = async () => {
         return { connected: false, error: error.message };
     }
 };
-// Initial connection using Top-Level Await to ensure client is ready for dependent modules
-try {
-    if (!redisClient.isOpen) {
-        await redisClient.connect();
-    }
-} catch (err) {
-    console.error(":x: Redis Top-Level Connect Error:", err.message);
-}
 
 export default redisClient; 
