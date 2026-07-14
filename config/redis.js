@@ -19,7 +19,7 @@ const redisClient = createClient({
 });
 
 redisClient.on("connect", () => console.log("Redis Connecting..."));
-redisClient.on("ready", () => console.log("Redis Connected & Ready"));
+redisClient.on("ready", () => console.log("Redis Connected & Ready on:", process.env.REDIS_URL || config.redisUri));
 redisClient.on("error", (err) => console.error("Redis Error:", err.message));
 redisClient.on("reconnecting", () => console.log("Redis Reconnecting..."));
 redisClient.on("end", () => { console.log("Redis: Connection closed") });
@@ -34,7 +34,7 @@ export const connectRedis = async () => {
         }
     } catch (error) {
         console.error(":x: Redis Connection Failed:", error.message);
-        console.error("Redis connection failed. Check REDIS_URL environment variable.");
+        console.error("Make sure Redis server is running on", config.redisUri || "redis://localhost:6379");
         process.exit(1); // Stop server if Redis fails (same as MongoDB)
     }
 };
