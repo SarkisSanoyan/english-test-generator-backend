@@ -17,10 +17,16 @@ export const verifyToken = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, config.accessSecret);
+    console.log("Decoded:", decoded);
     req.user = decoded;
     next();
   } catch (error) {
-    return res.status(403).json({ error: "Invalid or expired access token" });
+    console.error("JWT ERROR:", error.name);
+    console.error("MESSAGE:", error.message);
+
+    return res.status(403).json({
+      error: error.message,
+    });
   }
 };
 
