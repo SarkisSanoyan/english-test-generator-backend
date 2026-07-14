@@ -144,7 +144,7 @@ export const refresh = async (req, res) => {
 
     setTokenCookies(res, accessToken, refreshToken);
 
-    return res.json({ user });
+    return res.json({ user, accessToken});
   } catch (error) {
     res.clearCookie("accessToken");
     res.clearCookie("refreshToken");

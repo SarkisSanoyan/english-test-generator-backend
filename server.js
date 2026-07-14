@@ -49,7 +49,7 @@ app.get("/", (req, res) =>
 );  
 
 // API Routes
-app.use("/api/v1/quiz", quizRoutes); //apiLimiter, quizRoutes);
+app.use("/api/v1/quiz", quizRoutes);
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/admin", adminRouter);
 app.use("/api/v1/tests", apiLimiter, testsRouter);
