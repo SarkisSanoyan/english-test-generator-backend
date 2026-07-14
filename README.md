@@ -350,7 +350,7 @@ Example response:
 ## Get Quiz
 
 ```
-GET /api/v1/quizzes/:id
+GET /api/v1/quiz/:id
 ```
 
 ---
