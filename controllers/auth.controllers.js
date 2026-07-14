@@ -8,8 +8,8 @@ import { sendEmail } from "../utils/email.js";
 // Cookie settings for security
 const COOKIE_OPTIONS = {
   httpOnly: true, // Prevent XSS (JS cannot read these)
-  secure: config.env === "production", // HTTPS only in production
-  sameSite: "strict", // CSRF protection
+  secure: true,
+  sameSite: "none",
   path: "/", // Available everywhere
 };
 
