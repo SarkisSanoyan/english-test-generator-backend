@@ -130,7 +130,6 @@ The backend includes:
 
 - Vercel
 - Render
-- 
 
 
 ---
