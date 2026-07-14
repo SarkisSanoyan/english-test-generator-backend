@@ -2,7 +2,7 @@ import { createClient } from "redis";
 import { config } from "./env.js";
 
 const redisClient = createClient({
-    url: config.redisUri || "redis://localhost:6379",
+    url: config.redisUri,
     socket: {
         reconnectStrategy: (retries) => {
             // Exponential backoff: 100ms, 200ms, 400ms, ... max 3000ms
@@ -32,7 +32,8 @@ export const connectRedis = async () => {
         if (!redisClient.isOpen) {
             await redisClient.connect();
         } else {
-            // console.log("Redis: Already connected");
+            console.log("Redis: Already connected");
+            console.log("REDIS_URL exists:", !!config.redisUri);
         }
     } catch (error) {
         console.error(":x: Redis Connection Failed:", error.message);

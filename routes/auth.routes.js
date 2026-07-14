@@ -9,7 +9,7 @@ const router = express.Router();
 router.post("/register", authContoller.register);
 router.post("/login", authLimiter, authContoller.login); // Restored Limiter for users
 router.post("/admin/login", authContoller.adminLogin); // No Limiter for admins
-router.get("/refresh", authContoller.refresh);
+router.post("/refresh", authContoller.refresh);
 router.post("/change-password", verifyToken, forgotPasswordLimiter, authContoller.changePassword);
 router.post("/forgot-password", authContoller.forgotPassword);
 router.post("/reset-password/:token", authContoller.resetPassword);
