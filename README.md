@@ -4,7 +4,7 @@ Backend API for an English learning platform that generates vocabulary quizzes f
 
 The application processes English text, extracts important vocabulary words, generates different types of questions, and stores quizzes for learning and practice.
 
-Built with **Node.js, Express.js, TypeScript, MongoDB, Redis, and JWT Authentication**.
+Built with **Node.js, Express.js, MongoDB, Redis, and JWT Authentication**.
 
 ---
 
@@ -60,7 +60,6 @@ Technologies:
 
 - MongoDB Atlas
 - Mongoose ODM
-- TypeScript models
 
 ---
 
@@ -101,7 +100,6 @@ The backend includes:
 
 - Node.js
 - Express.js
-- TypeScript
 
 ## Database
 
@@ -137,43 +135,84 @@ The backend includes:
 # 📁 Project Structure
 
 ```
-src
+# 📁 Project Structure
+
+```
+english-test-generator-backend
+│
+├── api
+│   ├── fetchDefinition.js
+│   └── translateToArmenian.js
 │
 ├── config
-│   ├── database.ts
-│   ├── redis.ts
-│   └── env.ts
+│   ├── db.js
+│   ├── env.js
+│   ├── queue.js
+│   └── redis.js
 │
 ├── controllers
-│   ├── auth.controller.ts
-│   ├── quiz.controller.ts
-│   └── word.controller.ts
+│   ├── admin.controller.js
+│   ├── admin.submission.controller.js
+│   ├── admin.word.controller.js
+│   ├── analyze.controller.js
+│   ├── auth.controllers.js
+│   ├── quiz.controller.js
+│   ├── user.controller.js
+│   └── word.controller.js
+│
+├── data
 │
 ├── middleware
-│   ├── auth.middleware.ts
-│   ├── error.middleware.ts
-│   └── rateLimiter.middleware.ts
+│   ├── auth.middleware.js
+│   ├── logger.middleware.js
+│   └── ratelimiter.middleware.js
 │
 ├── models
-│   ├── User.ts
-│   ├── Quiz.ts
-│   ├── Question.ts
-│   └── Word.ts
+│   ├── log.model.js
+│   ├── question.model.js
+│   ├── quiz.model.js
+│   ├── result.model.js
+│   ├── test.model.js
+│   ├── textSubmission.model.js
+│   ├── user.model.js
+│   └── word.model.js
+│
+├── queues
 │
 ├── routes
-│   ├── auth.routes.ts
-│   ├── quiz.routes.ts
-│   └── word.routes.ts
+│   ├── admin.logs.js
+│   ├── admin.quizzes.routes.js
+│   ├── admin.routes.js
+│   ├── admin.submissions.routes.js
+│   ├── admin.users.routes.js
+│   ├── admin.words.routes.js
+│   ├── analyze.routes.js
+│   ├── auth.routes.js
+│   ├── quiz.routes.js
+│   ├── results.routes.js
+│   ├── tests.routes.js
+│   ├── users.routes.js
+│   └── word.routes.js
+│
+├── scripts
 │
 ├── services
-│   ├── auth.service.ts
-│   ├── quiz.service.ts
-│   └── email.service.ts
+│   ├── analyze.service.js
+│   ├── auth.service.js
+│   ├── dictionary.service.js
+│   ├── quiz.service.js
+│   └── word.service.js
 │
 ├── utils
 │
-├── app.ts
-└── server.ts
+├── .env
+├── .gitignore
+├── LICENSE
+├── package.json
+├── package-lock.json
+├── README.md
+└── server.js
+```
 ```
 
 ---
