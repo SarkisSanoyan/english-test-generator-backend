@@ -23,8 +23,6 @@ import loggerMiddleware from "./middleware/logger.middleware.js";
 
 import { config } from "./config/env.js";
 const app = express();
-app.set("trust proxy", 1);
-
 const PORT = config.port || 5000;
 let server;
 
