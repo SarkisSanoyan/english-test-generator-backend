@@ -277,7 +277,7 @@ POST /api/v1/auth/logout
 ## Generate Quiz
 
 ```
-POST /api/v1/quizzes/generate
+POST /api/v1/quiz
 ```
 
 Example request:
