@@ -23,6 +23,8 @@ import loggerMiddleware from "./middleware/logger.middleware.js";
 
 import { config } from "./config/env.js";
 const app = express();
+app.set("trust proxy", 1);
+
 const PORT = config.port || 5000;
 let server;
 
@@ -69,9 +71,6 @@ app.use((err, req, res, next) => {
 // Start server
 const startServer = async () => {
   try {
-    console.log("REDIS_URL:", process.env.REDIS_URL);
-    console.log("config.redisUri:", config.redisUri);
-
     await connectDB();
     await connectRedis();
 
