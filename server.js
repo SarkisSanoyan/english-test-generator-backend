@@ -23,8 +23,6 @@ import loggerMiddleware from "./middleware/logger.middleware.js";
 
 import { config } from "./config/env.js";
 const app = express();
-api.set("trust proxy", 1); // Trust first proxy for rate limiting and IP detection
-
 const PORT = config.port || 5000;
 let server;
 
