@@ -23,7 +23,7 @@ import loggerMiddleware from "./middleware/logger.middleware.js";
 
 import { config } from "./config/env.js";
 const app = express();
-app.set("trust proxy", 1);
+app.set("trust proxy", true); // Trust the first proxy (if behind a reverse proxy like Nginx or Heroku)
 
 const PORT = config.port || 5000;
 let server;
@@ -72,7 +72,12 @@ app.use((err, req, res, next) => {
 const startServer = async () => {
   try {
     await connectDB();
-    await connectRedis();
+
+    try {
+      await connectRedis();
+    } catch (err) {
+      console.error("Redis unavailable, continuing without cache");
+    }
 
     server = app.listen(PORT, () => {
       console.log(`🚀 Server is running on port: ${PORT}`);
